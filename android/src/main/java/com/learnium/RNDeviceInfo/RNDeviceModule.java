@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.wifi.WifiManager;
+import android.net.wifi.WifiInfo;
 import android.os.Build;
 import android.provider.Settings.Secure;
 import android.webkit.WebSettings;
@@ -30,9 +32,14 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
 
   ReactApplicationContext reactContext;
 
+  WifiInfo wifiInfo;
+
   public RNDeviceModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
+
+    WifiManager manager = (WifiManager) reactContext.getSystemService(Context.WIFI_SERVICE);
+    this.wifiInfo = manager.getConnectionInfo();
   }
 
   @Override
@@ -53,6 +60,11 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
           }
           return builder.toString();
       }
+  }
+
+  private String getMacAddress() {
+    String macAddress = wifiInfo.getMacAddress();
+    return macAddress;
   }
 
   private String getCurrentCountry() {
@@ -121,6 +133,7 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("model", Build.MODEL);
     constants.put("brand", Build.BRAND);
     constants.put("deviceId", Build.BOARD);
+    constants.put("mac", this.getMacAddress());
     constants.put("apiLevel", Build.VERSION.SDK_INT);
     constants.put("deviceLocale", this.getCurrentLanguage());
     constants.put("deviceCountry", this.getCurrentCountry());

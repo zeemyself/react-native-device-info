@@ -14,6 +14,9 @@ module.exports = {
   getDeviceId: function () {
     return RNDeviceInfo.deviceId;
   },
+  getMac: function () {
+    return RNDeviceInfo.mac;
+  },
   getManufacturer: function () {
     return RNDeviceInfo.systemManufacturer;
   },
