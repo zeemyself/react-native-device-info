@@ -33,17 +33,17 @@ RCT_EXPORT_MODULE()
     struct utsname systemInfo;
 
     uname(&systemInfo);
-    
+
     NSString* deviceId = [NSString stringWithCString:systemInfo.machine
                                             encoding:NSUTF8StringEncoding];
-    
+
     if ([deviceId isEqualToString:@"i386"] || [deviceId isEqualToString:@"x86_64"] ) {
         deviceId = [NSString stringWithFormat:@"%s", getenv("SIMULATOR_MODEL_IDENTIFIER")];
         self.isEmulator = YES;
     } else {
         self.isEmulator = NO;
     }
-    
+
     return deviceId;
 }
 
@@ -52,7 +52,7 @@ RCT_EXPORT_MODULE()
     static NSDictionary* deviceNamesByCode = nil;
 
     if (!deviceNamesByCode) {
-        
+
         deviceNamesByCode = @{@"iPod1,1"   :@"iPod Touch",      // (Original)
                               @"iPod2,1"   :@"iPod Touch",      // (Second Generation)
                               @"iPod3,1"   :@"iPod Touch",      // (Third Generation)
@@ -203,6 +203,7 @@ RCT_EXPORT_MODULE()
              @"timezone": self.timezone,
              @"isEmulator": @(self.isEmulator),
              @"isTablet": @(self.isTablet),
+             @"mac": @"02:00:00:00:00:00",
              };
 }
 
